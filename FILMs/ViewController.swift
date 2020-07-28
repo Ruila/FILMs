@@ -19,17 +19,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var apiKey = apiKK
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("video count", videos.count)
+        print("////////////")
         return videos.count
-     }
-     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: <#T##String#>, for: <#T##IndexPath#>) as! ViewControllerTableViewCell
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
         
         let video: VideosInfo
         video = videos[indexPath.row]
         
         cell.VideoDescription.text = video.title
-     }
+        
+//        AF.request(video.imageurl as! URLRequestConvertible).responseJSON { (response) in
+//
+//            switch response.result {
+//            case .success(let value):
+//                print("value111", value)
+//                print("////////////")
+//
+//                cell.VideoImage.image = value as? UIImage
+//            case .failure(let error):
+//                print(error)
+//            }
+//
+//        }
+        print("cell222", cell)
+        print("////////////")
+        return cell
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //         使用 Alamofire 獲取 url 上的資料
         AF.request(url).validate().responseJSON { (response) in
-        
+            
             
             switch response.result {
             case .success(let value):
@@ -59,12 +78,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 //                print("------")
                 let json = JSON(value) // -6
                 print(json["items"][0]["snippet"]["thumbnails"]["medium"]) //-7
-                
-           
+                                for i in 0..<json["items"].count{
+                                    let tmp = json["items"][i]["snippet"]["title"]
+
+//                    print("3333333",json["items"][i]["snippet"]["thumbnails"]["medium"])
+                    print("4444444",json["items"][i]["snippet"]["title"])
+                    if let tmp  is String? {
+                        print("wtf")
+                    }
+                                    
+                        /* Type problem   json ro string **/
+//                    print("5555555", (json["items"][i]["snippet"] as AnyObject).value(forKey: "title") ?? "GG")
+//                    self.videos.append(VideosInfo(
+////                        imageurl: (json["items"][i]["snippet"]["thumbnails"]["medium"] as AnyObject).value(forKey: "url") as? String,
+//                        title: json["items"][i]["snippet"]["title"]
+//                    ))
+                }
                 
             case .failure(let error):
                 print(error)
             }
+            
+            self.tableViewVideos.reloadData()
             
         }
     }
