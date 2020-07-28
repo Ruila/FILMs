@@ -7,23 +7,66 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    
+    @IBOutlet weak var tableViewVideos: UITableView!
+    
+    var videos = [VideosInfo]()
     var apiKey = apiKK
     
-   
-
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return videos.count
+     }
+     
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: <#T##String#>, for: <#T##IndexPath#>) as! ViewControllerTableViewCell
+        
+        let video: VideosInfo
+        video = videos[indexPath.row]
+        
+        cell.VideoDescription.text = video.title
+     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-//        print("apiKK",apiKK)
-        callAPI()
+        //        print("apiKK",apiKK)
+        getBooks()
+        //        callAPI()
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getBooks(){
+        // 判斷 string 是否能轉換成 URL
+        guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=10") else { return }
+        
+        //         使用 Alamofire 獲取 url 上的資料
+        AF.request(url).validate().responseJSON { (response) in
+        
+            
+            switch response.result {
+            case .success(let value):
+                //             print("Value:\(value)") //-5
+                //                print("------")
+                let json = JSON(value) // -6
+                print(json["items"][0]["snippet"]["thumbnails"]["medium"]) //-7
+                
+           
+                
+            case .failure(let error):
+                print(error)
+            }
+            
+        }
     }
     
     private func callAPI() {
@@ -52,18 +95,16 @@ class ViewController: UIViewController {
             
             do {
                 print("1")
-           
+                
                 // 使用 JSONDecoder 去解開 data
                 let filmsModel_d = try JSONDecoder().decode(filmsModel.self, from: data)
-                print(filmsModel_d.items[0])
+                //                print(filmsModel_d)
+                let json = JSON(filmsModel_d)
+                print(json)
                 
-           
-            
-                
-               
                 
             } catch {
-         
+                
                 print(error)
             }
             
@@ -77,12 +118,12 @@ class ViewController: UIViewController {
         
     }
     
-  
     
     
     
     
-
-
+    
+    
+    
 }
 
