@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j2j-U4-JmP">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="350" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j2j-U4-JmP">
                                 <rect key="frame" x="0.0" y="101" width="414" height="681"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -28,23 +28,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="329"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ncv-bN-CDB">
-                                                    <rect key="frame" x="10" y="11" width="394" height="211"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ncv-bN-CDB">
+                                                    <rect key="frame" x="4" y="11" width="400" height="210"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="400" id="ceK-v4-2pe"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolo " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4VV-w4-fAu">
-                                                    <rect key="frame" x="10" y="230" width="394" height="99"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GlR-Kv-XhE">
+                                                    <rect key="frame" x="20" y="229" width="62" height="32"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GlR-Kv-XhE" secondAttribute="trailing" constant="20" symbolic="YES" id="Dg4-70-sQb"/>
+                                                <constraint firstItem="GlR-Kv-XhE" firstAttribute="top" secondItem="ncv-bN-CDB" secondAttribute="bottom" constant="8" id="GkE-hg-7s8"/>
+                                                <constraint firstItem="ncv-bN-CDB" firstAttribute="leading" secondItem="wb6-2i-SC7" secondAttribute="leadingMargin" constant="-16" id="Jap-xx-zO3"/>
+                                                <constraint firstItem="ncv-bN-CDB" firstAttribute="top" secondItem="wb6-2i-SC7" secondAttribute="topMargin" id="MX7-Fh-98Y"/>
+                                                <constraint firstItem="GlR-Kv-XhE" firstAttribute="leading" secondItem="wb6-2i-SC7" secondAttribute="leadingMargin" id="Tjw-ma-gxp"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="GlR-Kv-XhE" secondAttribute="bottom" constant="57" id="uNh-0h-g1l"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="VideoDescription" destination="4VV-w4-fAu" id="kdw-1D-dwD"/>
                                             <outlet property="VideoImage" destination="ncv-bN-CDB" id="ddm-Dc-B8K"/>
+                                            <outlet property="VideoTitle" destination="GlR-Kv-XhE" id="hSe-BU-SVI"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

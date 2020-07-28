@@ -10,7 +10,8 @@ import UIKit
 
 class ViewControllerTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var VideoDescription: UITextView!
+   
+    @IBOutlet weak var VideoTitle: UILabel!
     @IBOutlet weak var VideoImage: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
