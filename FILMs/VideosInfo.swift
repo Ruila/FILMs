@@ -7,15 +7,15 @@
 //
 
 class VideosInfo {
-//    var imageurl: String?
+    var imageurl: String?
     var title: String?
     
-//    init(imageurl: String?, title: String?){
-//        self.imageurl = imageurl
-//        self.title = title
-//    }
-    
-    init(title: String?){
+    init(imageurl: String?, title: String?){
+        self.imageurl = imageurl
         self.title = title
     }
+    
+//    init(title: String?){
+//        self.title = title
+//    }
 }

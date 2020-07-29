@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 import SwiftyJSON
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -19,39 +20,41 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var apiKey = apiKK
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-                print("video count/////1111111", videos.count)
-                return videos.count
-//        return 3
+        print("video count/////1111111", videos.count)
+        return videos.count
+        //        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
         
         let video: VideosInfo
-        print("What is this", indexPath, indexPath.row)
-//        print("videos", videos)
-        print("videos", videos[0].title ?? "nil")
+       
         video = videos[indexPath.row]
-        print("---cell.VideoTitle.text---", cell.VideoTitle.text as Any)
-        //        print("---video.title---", video.title as Any)
+//        print("---cell.VideoTitle.text---", cell.VideoTitle.text as Any)
+        print("---video.imageurl---", video.imageurl ?? "url")
+           print("---video.text---", video.title ?? "url")
         cell.VideoTitle.text = video.title
+        //文字過長時的現實方式
+        cell.VideoTitle.lineBreakMode = NSLineBreakMode.byWordWrapping;
+        //文字框是否允許多行（佈局相關）
+        cell.VideoTitle.numberOfLines = 0;
         //        cell.textLabel?.text = cell.VideoDescription.text
-        
-        //        AF.request(video.imageurl as! URLRequestConvertible).responseJSON { (response) in
-        //
-        //            switch response.result {
-        //            case .success(let value):
-        //                print("value111", value)
-        //                print("////////////")
-        //
-        //                cell.VideoImage.image = value as? UIImage
-        //            case .failure(let error):
-        //                print(error)
-        //            }
-        //
-        //        }
-        //        print("cell222", cell)
-        //        print("////////////cell")
+        let url = URL(string: video.imageurl ?? "nil")!
+        cell.VideoThumbnails.af.setImage(withURL: url)
+//                AF.request(video.imageurl as! URLRequestConvertible).responseImage { (response) in
+//
+//                    switch response.result {
+//                    case .success(let value):
+//
+//
+//                        cell.VideoImage.image = value as? UIImage
+//                    case .failure(let error):
+//                        print(error)
+//                    }
+//
+//                }
+            
         return cell
     }
     
@@ -83,10 +86,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     /* Type problem   json ro string **/
                     
                     self.videos.append(VideosInfo(
-                        //                        imageurl: (json["items"][i]["snippet"]["thumbnails"]["medium"] as AnyObject).value(forKey: "url") as? String,
+                        imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
                         title: json["items"][i]["snippet"]["title"].stringValue
                     ))
-                    print("video count/////666666", self.videos.count)
+                    print("video count/////666666",  json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
                 }
                 self.tableViewVideos.reloadData()
             //                print("WWWWWWTTTTFFFFF")

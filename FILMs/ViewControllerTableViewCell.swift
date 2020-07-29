@@ -12,7 +12,8 @@ class ViewControllerTableViewCell: UITableViewCell {
 
    
     @IBOutlet weak var VideoTitle: UILabel!
-    @IBOutlet weak var VideoImage: UIImageView!
+    @IBOutlet weak var VideoThumbnails: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
