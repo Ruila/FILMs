@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var videos = [VideosInfo]()
     var apiKey = apiKK
+    var profileThumbnailsURL: String = ""
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        print("video count/////1111111", videos.count)
@@ -74,10 +75,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    func reload(thuurl: String ){
+        
+    }
     
     func getData(){
-        var profileThumbnailsURL: String = ""
-      
         //Channel Profile Information
          guard let cpurl = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
         
@@ -91,32 +93,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    profileThumbnailsURL = json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue
-                    print("--------profile========", json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue)
+                   
+                    self.profileThumbnailsURL = json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue
+                    print("--------profileThumbnailsURL========", json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue)
+                    
 
                 case .failure(let error):
                     print(error)
                 }
-                
             }
-            
         }
-        
         print("I'm an two")
-        
         DispatchQueue.global(qos: .background).sync{
             print("I'm an three")
+            print("profileThumbnailsURL Fail", self.profileThumbnailsURL) //-3
             
-            print("profileThumbnailsURL", profileThumbnailsURL)
                    //  catch playlist data
             AF.request(url).validate().responseJSON { (response) in
                     switch response.result {
                     case .success(let value):
                         let json = JSON(value)
+                        print("\n\nprofileThumbnailsURL Success", self.profileThumbnailsURL) // -2
                         
                         for i in 0..<json["items"].count{
                             /* Type problem   json ro string **/
-                            print("=====url====", json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
+//                            print("=====url====", json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
                             self.videos.append(VideosInfo(
                                 imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
                                 title: json["items"][i]["snippet"]["title"].stringValue
