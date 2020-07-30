@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import AlamofireImage
 import SwiftyJSON
+import Kingfisher
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -20,7 +21,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var apiKey = apiKK
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("video count/////1111111", videos.count)
+//        print("video count/////1111111", videos.count)
         return videos.count
         //        return 3
     }
@@ -32,8 +33,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
        
         video = videos[indexPath.row]
 //        print("---cell.VideoTitle.text---", cell.VideoTitle.text as Any)
-        print("---video.imageurl---", video.imageurl ?? "url")
-           print("---video.text---", video.title ?? "url")
+//        print("---video.imageurl---", video.imageurl ?? "url")
+//           print("---video.text---", video.title ?? "url")
         cell.VideoTitle.text = video.title
         //文字過長時的現實方式
         cell.VideoTitle.lineBreakMode = NSLineBreakMode.byWordWrapping;
@@ -41,7 +42,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.VideoTitle.numberOfLines = 0;
         //        cell.textLabel?.text = cell.VideoDescription.text
         let url = URL(string: video.imageurl ?? "nil")!
-        cell.VideoThumbnails.af.setImage(withURL: url)
+//        cell.VideoThumbnails.af.setImage(withURL: url)
+         cell.VideoThumbnails.kf.setImage(with: url)
 //                AF.request(video.imageurl as! URLRequestConvertible).responseImage { (response) in
 //
 //                    switch response.result {
@@ -62,8 +64,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //        print("apiKK",apiKK)
-        getBooks()
-        //        callAPI()
+        getPlaylist()
+        getChannelData()
         
     }
     
@@ -72,7 +74,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
-    func getBooks(){
+    func getChannelData(){
+        guard let url = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
+        
+        AF.request(url).validate().responseJSON { (response) in
+                   switch response.result {
+                   case .success(let value):
+                       let json = JSON(value)
+                       print("profile", json)
+//                       for i in 0..<json["items"].count{
+//                           /* Type problem   json ro string **/
+//
+//                           self.videos.append(VideosInfo(
+//                               imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
+//                               title: json["items"][i]["snippet"]["title"].stringValue
+//                           ))
+//                           print("video count/////666666",  json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
+//                       }
+//                       self.tableViewVideos.reloadData()
+                   //                print("WWWWWWTTTTFFFFF")
+                   case .failure(let error):
+                       print(error)
+                   }
+                   
+               }
+    }
+    
+    func getPlaylist(){
         // 判斷 string 是否能轉換成 URL
         guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=10") else { return }
         
@@ -89,7 +117,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
                         title: json["items"][i]["snippet"]["title"].stringValue
                     ))
-                    print("video count/////666666",  json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
+//                    print("video count/////666666",  json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
                 }
                 self.tableViewVideos.reloadData()
             //                print("WWWWWWTTTTFFFFF")
@@ -99,6 +127,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
         }
     }
+    
     
     private func callAPI() {
         // 根據網站的 Request tab info 我們拼出請求的網址
