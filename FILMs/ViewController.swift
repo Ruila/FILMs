@@ -64,8 +64,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //        print("apiKK",apiKK)
-        getPlaylist()
-        getChannelData()
+        getData()
+      
         
     }
     
@@ -74,58 +74,67 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
-    func getChannelData(){
-        guard let url = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
-        
-        AF.request(url).validate().responseJSON { (response) in
-                   switch response.result {
-                   case .success(let value):
-                       let json = JSON(value)
-                       print("profile", json)
-//                       for i in 0..<json["items"].count{
-//                           /* Type problem   json ro string **/
-//
-//                           self.videos.append(VideosInfo(
-//                               imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
-//                               title: json["items"][i]["snippet"]["title"].stringValue
-//                           ))
-//                           print("video count/////666666",  json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
-//                       }
-//                       self.tableViewVideos.reloadData()
-                   //                print("WWWWWWTTTTFFFFF")
-                   case .failure(let error):
-                       print(error)
-                   }
-                   
-               }
-    }
     
-    func getPlaylist(){
-        // 判斷 string 是否能轉換成 URL
+    func getData(){
+        var profileThumbnailsURL: String = ""
+      
+        //Channel Profile Information
+         guard let cpurl = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
+        
+        // Playlist Information
         guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=10") else { return }
         
-        //         使用 Alamofire 獲取 url 上的資料
-        AF.request(url).validate().responseJSON { (response) in
-            switch response.result {
-            case .success(let value):
-                let json = JSON(value)
-                
-                for i in 0..<json["items"].count{
-                    /* Type problem   json ro string **/
-                    
-                    self.videos.append(VideosInfo(
-                        imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
-                        title: json["items"][i]["snippet"]["title"].stringValue
-                    ))
-//                    print("video count/////666666",  json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
+        DispatchQueue.global(qos: .userInitiated).sync{
+            print("I'm an one")
+            //channelProfile
+            AF.request(cpurl).validate().responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    profileThumbnailsURL = json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue
+                    print("--------profile========", json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue)
+
+                case .failure(let error):
+                    print(error)
                 }
-                self.tableViewVideos.reloadData()
-            //                print("WWWWWWTTTTFFFFF")
-            case .failure(let error):
-                print(error)
+                
             }
             
         }
+        
+        print("I'm an two")
+        
+        DispatchQueue.global(qos: .background).sync{
+            print("I'm an three")
+            
+            print("profileThumbnailsURL", profileThumbnailsURL)
+                   //  catch playlist data
+            AF.request(url).validate().responseJSON { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let json = JSON(value)
+                        
+                        for i in 0..<json["items"].count{
+                            /* Type problem   json ro string **/
+                            print("=====url====", json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
+                            self.videos.append(VideosInfo(
+                                imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
+                                title: json["items"][i]["snippet"]["title"].stringValue
+                            ))
+
+                        }
+                        self.tableViewVideos.reloadData()
+                    //                print("WWWWWWTTTTFFFFF")
+                    case .failure(let error):
+                        print(error)
+                    }
+                    
+                }
+            print("I'm an four")
+        }
+        
+       
+    
     }
     
     
