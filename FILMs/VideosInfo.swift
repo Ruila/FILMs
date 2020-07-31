@@ -9,10 +9,12 @@
 class VideosInfo {
     var imageurl: String?
     var title: String?
+    var profileThumbnails: String?
     
-    init(imageurl: String?, title: String?){
+    init(imageurl: String?, title: String?, profileThumbnails: String?){
         self.imageurl = imageurl
         self.title = title
+        self.profileThumbnails = profileThumbnails
     }
     
 //    init(title: String?){

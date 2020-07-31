@@ -11,6 +11,7 @@ import UIKit
 class ViewControllerTableViewCell: UITableViewCell {
 
    
+    @IBOutlet weak var ProfileThumbnails: UIImageView!
     @IBOutlet weak var VideoTitle: UILabel!
     @IBOutlet weak var VideoThumbnails: UIImageView!
     

@@ -51,6 +51,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="ProfileThumbnails" destination="Gjw-jc-s0y" id="RXI-R6-7ho"/>
                                             <outlet property="VideoThumbnails" destination="ycE-kc-bUS" id="L67-C0-y1r"/>
                                             <outlet property="VideoTitle" destination="GlR-Kv-XhE" id="hSe-BU-SVI"/>
                                         </connections>

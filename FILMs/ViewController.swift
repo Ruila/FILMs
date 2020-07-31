@@ -45,18 +45,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let url = URL(string: video.imageurl ?? "nil")!
 //        cell.VideoThumbnails.af.setImage(withURL: url)
          cell.VideoThumbnails.kf.setImage(with: url)
-//                AF.request(video.imageurl as! URLRequestConvertible).responseImage { (response) in
-//
-//                    switch response.result {
-//                    case .success(let value):
-//
-//
-//                        cell.VideoImage.image = value as? UIImage
-//                    case .failure(let error):
-//                        print(error)
-//                    }
-//
-//                }
+
+        let pturl = URL(string: video.profileThumbnails ?? "nil")
+        cell.ProfileThumbnails.kf.setImage(with: pturl)
             
         return cell
     }
@@ -120,7 +111,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //                            print("=====url====", json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
                             self.videos.append(VideosInfo(
                                 imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
-                                title: json["items"][i]["snippet"]["title"].stringValue
+                                title: json["items"][i]["snippet"]["title"].stringValue,
+                                profileThumbnails: self.profileThumbnailsURL
                             ))
 
                         }
