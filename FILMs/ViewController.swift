@@ -37,6 +37,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        print("---video.imageurl---", video.imageurl ?? "url")
 //           print("---video.text---", video.title ?? "url")
         cell.VideoTitle.text = video.title
+        cell.ChannelName.text =  video.channelName! + "・觀看次數："
         //文字過長時的現實方式
         cell.VideoTitle.lineBreakMode = NSLineBreakMode.byWordWrapping;
         //文字框是否允許多行（佈局相關）
@@ -110,6 +111,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             /* Type problem   json ro string **/
 //                            print("=====url====", json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue)
                             self.videos.append(VideosInfo(
+                                channelName: json["items"][i]["snippet"]["channelTitle"].stringValue,
                                 imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
                                 title: json["items"][i]["snippet"]["title"].stringValue,
                                 profileThumbnails: self.profileThumbnailsURL
