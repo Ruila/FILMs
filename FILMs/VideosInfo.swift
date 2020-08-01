@@ -12,12 +12,15 @@ class VideosInfo {
     var profileThumbnails: String?
     var channelName: String?
     var videoId: String?
+    var videoViewCount: String?
     
-    init(channelName: String?, imageurl: String?, title: String?, profileThumbnails: String?, videoId: String?){
+    init(channelName: String?, imageurl: String?, title: String?, profileThumbnails: String?, videoId: String?, videoViewCount: String?){
         self.imageurl = imageurl
         self.title = title
         self.profileThumbnails = profileThumbnails
         self.channelName = channelName
         self.videoId = videoId
+        self.videoViewCount = videoViewCount
+     
     }
 }

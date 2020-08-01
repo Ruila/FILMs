@@ -23,9 +23,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var videoInfoDic = [String:String]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        print("video count/////1111111", videos.count)
+        
         return videos.count
-        //        return 3
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -34,22 +34,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let video: VideosInfo
         
         video = videos[indexPath.row]
-        
         cell.VideoTitle.text = video.title
-        cell.ChannelName.text =  video.channelName! + "・觀看次數："
+        
+        cell.ChannelName.text =  video.channelName! + "・觀看次數：" + video.videoViewCount!
+        
+        
         //文字過長時的現實方式
         cell.VideoTitle.lineBreakMode = NSLineBreakMode.byWordWrapping;
         //文字框是否允許多行（佈局相關）
         cell.VideoTitle.numberOfLines = 0;
-        //        cell.textLabel?.text = cell.VideoDescription.text
+        
         let url = URL(string: video.imageurl ?? "nil")!
-        //        cell.VideoThumbnails.af.setImage(withURL: url)
+        
         cell.VideoThumbnails.kf.setImage(with: url)
         
         let pturl = URL(string: video.profileThumbnails ?? "nil")
         cell.ProfileThumbnails.kf.setImage(with: pturl)
-        
-        
         
         return cell
     }
@@ -74,17 +74,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let dicFail = ["FailMessage": "Bye"]
                 return dicFail
         }
+        let semaphore = DispatchSemaphore(value: 1)
         
         self.videoInfoDic = [:] //clear for next video information
         
-        
+        semaphore.wait()
         AF.request(url).validate().responseJSON { (response) in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                //                print("\nJSONVIDEO///", json)
+                
                 self.videoInfoDic["viewCount"] = json["items"][0]["statistics"]["viewCount"].stringValue
                 print("check222", self.videoInfoDic)
+                semaphore.signal()
                 
             case .failure(let error):
                 print(error)
@@ -102,8 +104,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Playlist Information
         guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=3") else { return }
         
+        
+        
         let higherPriority = DispatchQueue.global(qos: .userInitiated)
-        let lowerPriority = DispatchQueue.global(qos: .utility)
+        let lowerPriority = DispatchQueue.global(qos: .default)
+        let thirdPriority = DispatchQueue.global(qos: .utility)
         let semaphore = DispatchSemaphore(value: 1)
         higherPriority.async{
             //channelProfile
@@ -138,13 +143,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
                             title: json["items"][i]["snippet"]["title"].stringValue,
                             profileThumbnails: self.profileThumbnailsURL,
-                            videoId: json["items"][i]["contentDetails"]["videoId"].stringValue
+                            videoId: json["items"][i]["contentDetails"]["videoId"].stringValue,
+                            videoViewCount: "nothing"
                         ))
                         
                     }
+                    print("///////", self.videos.count)
                     semaphore.signal() // releasing the resource
-                    self.tableViewVideos.reloadData()
-                //                print("WWWWWWTTTTFFFFF")
+                    
                 case .failure(let error):
                     print(error)
                 }
@@ -154,6 +160,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         
         
+        thirdPriority.async {
+            semaphore.wait()
+            for i in 0..<self.videos.count{
+                guard let videourl = URL(string: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=\(self.videos[i].videoId ?? "nil")&key=\(self.apiKey)")
+                    else{return}
+                
+                
+                AF.request(videourl).validate().responseJSON { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let json = JSON(value)
+                        print("json", json["items"][0]["statistics"]["viewCount"].stringValue)
+                        self.videos[i].videoViewCount = json["items"][0]["statistics"]["viewCount"].stringValue
+                        semaphore.signal()
+                        self.tableViewVideos.reloadData()
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+                
+            }
+            
+        }
         
     }
     
