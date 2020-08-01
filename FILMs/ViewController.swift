@@ -34,7 +34,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let video: VideosInfo
         
         video = videos[indexPath.row]
-       
+        
         cell.VideoTitle.text = video.title
         cell.ChannelName.text =  video.channelName! + "・觀看次數："
         //文字過長時的現實方式
@@ -49,7 +49,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let pturl = URL(string: video.profileThumbnails ?? "nil")
         cell.ProfileThumbnails.kf.setImage(with: pturl)
         
-    
+        
         
         return cell
     }
@@ -74,22 +74,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let dicFail = ["FailMessage": "Bye"]
                 return dicFail
         }
-      
-            self.videoInfoDic = [:] //clear for next video information
-         
-
-            AF.request(url).validate().responseJSON { (response) in
-                switch response.result {
-                case .success(let value):
-                    let json = JSON(value)
-                    //                print("\nJSONVIDEO///", json)
-                    self.videoInfoDic["viewCount"] = json["items"][0]["statistics"]["viewCount"].stringValue
-                    print("check222", self.videoInfoDic)
-                    
-                case .failure(let error):
-                    print(error)
-                }
+        
+        self.videoInfoDic = [:] //clear for next video information
+        
+        
+        AF.request(url).validate().responseJSON { (response) in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                //                print("\nJSONVIDEO///", json)
+                self.videoInfoDic["viewCount"] = json["items"][0]["statistics"]["viewCount"].stringValue
+                print("check222", self.videoInfoDic)
+                
+            case .failure(let error):
+                print(error)
             }
+        }
         
         print("check", self.videoInfoDic)
         return self.videoInfoDic
@@ -102,23 +102,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Playlist Information
         guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=3") else { return }
         
-        DispatchQueue.global(qos: .userInitiated).sync{
+        let higherPriority = DispatchQueue.global(qos: .userInitiated)
+        let lowerPriority = DispatchQueue.global(qos: .utility)
+        let semaphore = DispatchSemaphore(value: 1)
+        higherPriority.async{
             //channelProfile
+            semaphore.wait()  // requesting the resource
             print("hi")
+            
             AF.request(cpurl).validate().responseJSON { (response) in
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
                     print("hello222")
                     self.profileThumbnailsURL = json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue
-                    
+                    semaphore.signal() // releasing the resource
                 case .failure(let error):
                     print(error)
                 }
             }
         }
-        DispatchQueue.global(qos: .background).sync{
+        
+        lowerPriority.async{
             //  catch playlist data
+            semaphore.wait()
             print("hello")
             AF.request(url).validate().responseJSON { (response) in
                 switch response.result {
@@ -135,6 +142,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         ))
                         
                     }
+                    semaphore.signal() // releasing the resource
                     self.tableViewVideos.reloadData()
                 //                print("WWWWWWTTTTFFFFF")
                 case .failure(let error):
@@ -142,8 +150,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
                 
             }
-            
         }
+        
+        
+        
+        
     }
     
 }
