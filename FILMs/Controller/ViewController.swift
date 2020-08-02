@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.VideoTitle.numberOfLines = 0;
         
         let url = URL(string: video.imageurl ?? "nil")!
-        
+        print("ggg", video.imageurl ?? "nil")
         cell.VideoThumbnails.kf.setImage(with: url)
         
         let pturl = URL(string: video.profileThumbnails ?? "nil")
@@ -112,34 +112,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func getVideoDetail(videoId: String) -> Dictionary<String, String>{
-        guard let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=\(videoId)&key=\(apiKey)")
-            else{
-                let dicFail = ["FailMessage": "Bye"]
-                return dicFail
-        }
-        let semaphore = DispatchSemaphore(value: 1)
-        
-        self.videoInfoDic = [:] //clear for next video information
-        
-        semaphore.wait()
-        AF.request(url).validate().responseJSON { (response) in
-            switch response.result {
-            case .success(let value):
-                let json = JSON(value)
-                
-                self.videoInfoDic["viewCount"] = json["items"][0]["statistics"]["viewCount"].stringValue
-                print("check222", self.videoInfoDic)
-                semaphore.signal()
-                
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        print("check", self.videoInfoDic)
-        return self.videoInfoDic
-    }
     
     func getChennelProfile()-> Promise<JSON>{
         
