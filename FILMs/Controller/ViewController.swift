@@ -11,6 +11,7 @@ import Alamofire
 import AlamofireImage
 import SwiftyJSON
 import Kingfisher
+import PromiseKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -21,6 +22,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var apiKey = apiKK
     var profileThumbnailsURL: String = ""
     var videoInfoDic = [String:String]()
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let controller = segue.destination as? VideoViewCellViewController
+        
+        controller?.textname = "Heolodofkd"
+        
+        
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -49,6 +58,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.VideoThumbnails.kf.setImage(with: url)
         
         let pturl = URL(string: video.profileThumbnails ?? "nil")
+//                print("pturl", pturl)
         cell.ProfileThumbnails.kf.setImage(with: pturl)
         
         return cell
@@ -66,6 +76,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getData(){
+        firstly{
+            when(fulfilled: self.getChennelProfile(), self.getPlaylistData())
+        }.done { json1, json2 in
+            for i in 0..<json2["items"].count{
+                guard let videourl = URL(string: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=\(json2["items"][i]["contentDetails"]["videoId"].stringValue )&key=\(self.apiKey)")
+                    else{return}
+                
+                
+                AF.request(videourl).validate().responseJSON { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let videoJson = JSON(value)
+                        
+                        self.videos.append(VideosInfo(
+                            channelName: json2["items"][i]["snippet"]["channelTitle"].stringValue,
+                            imageurl: json2["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
+                            title: json2["items"][i]["snippet"]["title"].stringValue,
+                            profileThumbnails: json1["items"][0]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
+                            videoId: json2["items"][i]["contentDetails"]["videoId"].stringValue,
+                            videoViewCount: videoJson["items"][0]["statistics"]["viewCount"].stringValue
+                        ))
+                        
+                        self.tableViewVideos.reloadData()
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+                
+            }
+            
+        }
     }
     
     func getVideoDetail(videoId: String) -> Dictionary<String, String>{
@@ -97,71 +141,47 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return self.videoInfoDic
     }
     
-    func getData(){
-        //Channel Profile Information
-        guard let cpurl = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
+    func getChennelProfile()-> Promise<JSON>{
         
-        // Playlist Information
-        guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=3") else { return }
-        
-        
-        
-        let higherPriority = DispatchQueue.global(qos: .userInitiated)
-        let lowerPriority = DispatchQueue.global(qos: .default)
-        let thirdPriority = DispatchQueue.global(qos: .utility)
-        let semaphore = DispatchSemaphore(value: 1)
-        higherPriority.async{
-            //channelProfile
-            semaphore.wait()  // requesting the resource
-            print("hi")
+        return Promise { Resolver in
+            guard let cpurl = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
             
             AF.request(cpurl).validate().responseJSON { (response) in
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("hello222")
-                    self.profileThumbnailsURL = json["items"][0]["snippet"]["thumbnails"]["default"]["url"].stringValue
-                    semaphore.signal() // releasing the resource
+                    
+                    Resolver.fulfill(json)
                 case .failure(let error):
                     print(error)
                 }
             }
+            
         }
-        
-        lowerPriority.async{
-            //  catch playlist data
-            semaphore.wait()
-            print("hello")
+    }
+    
+    func getPlaylistData()-> Promise<JSON>{
+        return Promise { Resolver in
+            guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=3") else { return }
+            
             AF.request(url).validate().responseJSON { (response) in
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("hello1111")
-                    for i in 0..<json["items"].count{
-                        self.videos.append(VideosInfo(
-                            channelName: json["items"][i]["snippet"]["channelTitle"].stringValue,
-                            imageurl: json["items"][i]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
-                            title: json["items"][i]["snippet"]["title"].stringValue,
-                            profileThumbnails: self.profileThumbnailsURL,
-                            videoId: json["items"][i]["contentDetails"]["videoId"].stringValue,
-                            videoViewCount: "nothing"
-                        ))
-                        
-                    }
-                    print("///////", self.videos.count)
-                    semaphore.signal() // releasing the resource
+                    Resolver.fulfill(json)
+                    
                     
                 case .failure(let error):
                     print(error)
                 }
                 
             }
+            
         }
-        
-        
-        
-        thirdPriority.async {
-            semaphore.wait()
+    }
+    
+    func getVideoDetail()-> Promise<JSON>{
+        return Promise { Resolver in
             for i in 0..<self.videos.count{
                 guard let videourl = URL(string: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=\(self.videos[i].videoId ?? "nil")&key=\(self.apiKey)")
                     else{return}
@@ -171,20 +191,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     switch response.result {
                     case .success(let value):
                         let json = JSON(value)
-                        print("json", json["items"][0]["statistics"]["viewCount"].stringValue)
-                        self.videos[i].videoViewCount = json["items"][0]["statistics"]["viewCount"].stringValue
-                        semaphore.signal()
-                        self.tableViewVideos.reloadData()
+                        //                        print("json", json["items"][0]["statistics"]["viewCount"].stringValue)
+                        //                        self.videos[i].videoViewCount = json["items"][0]["statistics"]["viewCount"].stringValue
+                        Resolver.fulfill(json)
+                        
+                    //                        self.tableViewVideos.reloadData()
                     case .failure(let error):
                         print(error)
                     }
                 }
-                
             }
-            
         }
-        
     }
+    
+    
+    
     
 }
 
