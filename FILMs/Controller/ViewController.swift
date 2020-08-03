@@ -54,14 +54,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.VideoTitle.numberOfLines = 0;
         
         let url = URL(string: video.imageurl ?? "nil")!
-        print("ggg", video.imageurl ?? "nil")
+
         cell.VideoThumbnails.kf.setImage(with: url)
-        
+        {
+            result in
+            switch result {
+            case .success(let value):
+                print("111111111:", value.image)
+                
+            case .failure(let error):
+                print("Job failed==========: \(error.localizedDescription)")
+            }
+        }
         let pturl = URL(string: video.profileThumbnails ?? "nil")
-//                print("pturl", pturl)
-        cell.ProfileThumbnails.kf.setImage(with: pturl)
+                //                print("pturl", pturl)
+                cell.ProfileThumbnails.kf.setImage(with: pturl)
+                {
+                    result in
+                    switch result {
+                    case .success(let value):
+                        print("Task done for2222222:", value.image)
+                        
+                    case .failure(let error):
+                        print("Job failed============: \(error.localizedDescription)")
+                    }
+                }
         
-        return cell
+  
+         return cell
+        
+       
     }
     
     override func viewDidLoad() {
@@ -77,6 +99,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //    func getImage(videoUrl:String, cell:Any)->Promise<String>{
+    //        return Promise{ Resolver in
+    //
+    //               let url = URL(string: videoUrl ?? "nil")!
+    //            //        print("ggg", video.imageurl ?? "nil")
+    //                    cell.VideoThumbnails.kf.setImage(with: url)
+    //                    {
+    //                        result in
+    //                        switch result {
+    //                        case .success(let value):
+    //                            print("Task done for:", value.source)
+    //                        case .failure(let error):
+    //                            print("Job failed: \(error.localizedDescription)")
+    //                        }
+    //                    }
+    //
+    //        }
+    //    }
     
     func getData(){
         firstly{
@@ -151,33 +192,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
         }
     }
-    
-    func getVideoDetail()-> Promise<JSON>{
-        return Promise { Resolver in
-            for i in 0..<self.videos.count{
-                guard let videourl = URL(string: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=\(self.videos[i].videoId ?? "nil")&key=\(self.apiKey)")
-                    else{return}
-                
-                
-                AF.request(videourl).validate().responseJSON { (response) in
-                    switch response.result {
-                    case .success(let value):
-                        let json = JSON(value)
-                        //                        print("json", json["items"][0]["statistics"]["viewCount"].stringValue)
-                        //                        self.videos[i].videoViewCount = json["items"][0]["statistics"]["viewCount"].stringValue
-                        Resolver.fulfill(json)
-                        
-                    //                        self.tableViewVideos.reloadData()
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    
     
 }
 
