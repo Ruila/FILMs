@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.VideoTitle.numberOfLines = 0;
         
         let url = URL(string: video.imageurl ?? "nil")!
-
+        
         cell.VideoThumbnails.kf.setImage(with: url)
         {
             result in
@@ -67,23 +67,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
         let pturl = URL(string: video.profileThumbnails ?? "nil")
-                //                print("pturl", pturl)
-                cell.ProfileThumbnails.kf.setImage(with: pturl)
-                {
-                    result in
-                    switch result {
-                    case .success(let value):
-                        print("Task done for2222222:", value.image)
-                        
-                    case .failure(let error):
-                        print("Job failed============: \(error.localizedDescription)")
-                    }
-                }
+        //                print("pturl", pturl)
+        cell.ProfileThumbnails.kf.setImage(with: pturl)
+        {
+            result in
+            switch result {
+            case .success(let value):
+                print("Task done for2222222:", value.image)
+                
+            case .failure(let error):
+                print("Job failed============: \(error.localizedDescription)")
+            }
+        }
         
-  
-         return cell
         
-       
+        return cell
+        
+        
     }
     
     override func viewDidLoad() {
@@ -147,9 +147,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         print(error)
                     }
                 }
-                
             }
-            
+        }.catch{ error in
+            print("error", error)
         }
     }
     
