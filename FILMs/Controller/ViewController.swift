@@ -23,13 +23,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var profileThumbnailsURL: String = ""
     var videoInfoDic = [String:String]()
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let controller = segue.destination as? VideoViewCellViewController
-        
-        controller?.textname = "Heolodofkd"
-        
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let video: VideosInfo
+        video = videos[indexPath.row]
+        print("i am choosed", video.title!)
+        if let controller = storyboard?.instantiateViewController(withIdentifier:"showVideoPage") as? VideoViewCellViewController{
+            controller.textname = video.title!
+            present(controller, animated: true, completion: nil)
+        }
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -100,24 +103,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
-    //    func getImage(videoUrl:String, cell:Any)->Promise<String>{
-    //        return Promise{ Resolver in
-    //
-    //               let url = URL(string: videoUrl ?? "nil")!
-    //            //        print("ggg", video.imageurl ?? "nil")
-    //                    cell.VideoThumbnails.kf.setImage(with: url)
-    //                    {
-    //                        result in
-    //                        switch result {
-    //                        case .success(let value):
-    //                            print("Task done for:", value.source)
-    //                        case .failure(let error):
-    //                            print("Job failed: \(error.localizedDescription)")
-    //                        }
-    //                    }
-    //
-    //        }
-    //    }
     
     func getData(){
         firstly{
@@ -175,7 +160,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func getPlaylistData()-> Promise<JSON>{
         return Promise { Resolver in
-            guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=3") else { return }
+            guard let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails,status&playlistId=UU6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)&maxResults=10") else { return }
             
             AF.request(url).validate().responseJSON { (response) in
                 switch response.result {

@@ -23,6 +23,11 @@ class VideoViewCellViewController: UIViewController {
     func Display(){
         if let name = textname{
             textLabel.text = name
+            //文字過長時的現實方式
+            textLabel.lineBreakMode = NSLineBreakMode.byWordWrapping;
+            //文字框是否允許多行（佈局相關）
+            textLabel.numberOfLines = 0;
+
         }
     }
     
