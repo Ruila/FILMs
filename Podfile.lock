@@ -15,6 +15,7 @@ PODS:
   - PromiseKit/UIKit (6.13.1):
     - PromiseKit/CorePromise
   - SwiftyJSON (4.3.0)
+  - youtube-ios-player-helper (1.0.2)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
@@ -22,6 +23,7 @@ DEPENDENCIES:
   - Kingfisher (~> 5.0)
   - PromiseKit (~> 6.8)
   - SwiftyJSON (~> 4.0)
+  - youtube-ios-player-helper
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs:
@@ -30,6 +32,7 @@ SPEC REPOS:
     - Kingfisher
     - PromiseKit
     - SwiftyJSON
+    - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
@@ -37,7 +40,8 @@ SPEC CHECKSUMS:
   Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   PromiseKit: 28fda91c973cc377875d8c0ea4f973013c05b6db
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  youtube-ios-player-helper: 40b96e52c22445f0fdc43731cefa32c67075ff81
 
-PODFILE CHECKSUM: c66e54720ace1101501618d7823b2b5435fb1dc0
+PODFILE CHECKSUM: 81b6fa5f3251cfefea01c8999780245d7739aade
 
 COCOAPODS: 1.9.3

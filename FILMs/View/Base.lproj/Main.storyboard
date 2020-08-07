@@ -90,19 +90,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gy4-Yp-hQu">
-                                <rect key="frame" x="20" y="217" width="374" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wsD-us-vVe" customClass="YTPlayerView">
+                                <rect key="frame" x="0.0" y="72" width="414" height="300"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="2KP-dD-giu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="wsD-us-vVe" firstAttribute="top" secondItem="r6x-zg-1np" secondAttribute="top" id="2P2-8z-su9"/>
+                            <constraint firstItem="wsD-us-vVe" firstAttribute="leading" secondItem="r6x-zg-1np" secondAttribute="leading" id="DG7-mY-1zX"/>
+                            <constraint firstItem="r6x-zg-1np" firstAttribute="trailing" secondItem="wsD-us-vVe" secondAttribute="trailing" id="JRy-rh-neo"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="r6x-zg-1np"/>
                     </view>
                     <connections>
-                        <outlet property="textLabel" destination="gy4-Yp-hQu" id="x6q-Hw-age"/>
+                        <outlet property="playerview" destination="wsD-us-vVe" id="aKj-Om-fMc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vjc-lX-pdP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

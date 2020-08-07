@@ -6,7 +6,8 @@ target 'FILMs' do
   pod 'AlamofireImage', '~> 4.1'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Kingfisher', '~> 5.0'
-  pod "PromiseKit", "~> 6.8" 
+  pod "PromiseKit", "~> 6.8"
+  pod "youtube-ios-player-helper"
   use_frameworks!
 
   # Pods for FILMs
