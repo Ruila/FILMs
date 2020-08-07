@@ -90,19 +90,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wsD-us-vVe" customClass="YTPlayerView">
-                                <rect key="frame" x="0.0" y="72" width="414" height="300"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsD-us-vVe" customClass="YTPlayerView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="300"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="300" id="29C-px-zqs"/>
                                     <constraint firstAttribute="height" constant="300" id="2KP-dD-giu"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="thI-gO-5YS"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="wsD-us-vVe" firstAttribute="top" secondItem="r6x-zg-1np" secondAttribute="top" id="2P2-8z-su9"/>
-                            <constraint firstItem="wsD-us-vVe" firstAttribute="leading" secondItem="r6x-zg-1np" secondAttribute="leading" id="DG7-mY-1zX"/>
-                            <constraint firstItem="r6x-zg-1np" firstAttribute="trailing" secondItem="wsD-us-vVe" secondAttribute="trailing" id="JRy-rh-neo"/>
+                            <constraint firstItem="wsD-us-vVe" firstAttribute="leading" secondItem="r6x-zg-1np" secondAttribute="leading" id="kBH-Oc-NQZ"/>
+                            <constraint firstItem="wsD-us-vVe" firstAttribute="trailing" secondItem="r6x-zg-1np" secondAttribute="trailing" id="roB-sf-lc5"/>
+                            <constraint firstItem="wsD-us-vVe" firstAttribute="top" secondItem="r6x-zg-1np" secondAttribute="top" id="sjF-gf-cxX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="r6x-zg-1np"/>
                     </view>
