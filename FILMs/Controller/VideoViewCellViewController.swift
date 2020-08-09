@@ -14,6 +14,7 @@ import Alamofire
 class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
     
     
+    @IBOutlet weak var FirstSection: UIView!
     @IBOutlet var playerview: YTPlayerView!
     @IBOutlet weak var ViewCount: UILabel!
     @IBOutlet weak var VideoTitle: UILabel!
@@ -24,15 +25,24 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
     var apiKey = apiKK
     var videoId: String?
     
-    
-    
+ 
     let playvarsDic = ["controls": 1, "playsinline": 1, "autohide": 1, "showinfo": 1, "autoplay": 1, "modestbranding": 1]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Display()
-        
+        addTopAndBottomBorders()
         // Do any additional setup after loading the view.
+    }
+    
+    func addTopAndBottomBorders() {
+       let thickness: CGFloat = 1.0
+       
+       let bottomBorder = CALayer()
+       
+       bottomBorder.frame = CGRect(x:0, y: self.FirstSection.frame.size.height - thickness, width: self.FirstSection.frame.size.width, height:thickness)
+        bottomBorder.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1).cgColor
+       FirstSection.layer.addSublayer(bottomBorder)
     }
     
     func Display(){
@@ -50,7 +60,8 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
             self.VideoTitle.numberOfLines = 0;
             
             self.Like.setTitle("Like：" + json["items"][0]["statistics"]["likeCount"].stringValue, for: .normal)
-            self.Dislike.setTitle("Like：" + json["items"][0]["statistics"]["dislikeCount"].stringValue, for: .normal)
+            self.Dislike.setTitle("Dislike：" + json["items"][0]["statistics"]["dislikeCount"].stringValue, for: .normal)
+            
         }.catch{ error in
             print("error", error)
         }
