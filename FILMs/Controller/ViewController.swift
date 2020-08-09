@@ -29,8 +29,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         print("i am choosed", video.title!)
         if let controller = storyboard?.instantiateViewController(withIdentifier:"showVideoPage") as? VideoViewCellViewController{
             controller.videoId = video.videoId!
-            controller.videoTitle = video.title!
-            controller.viewCount = video.videoViewCount!
             present(controller, animated: true, completion: nil)
         }
     }
