@@ -124,17 +124,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsD-us-vVe" customClass="YTPlayerView">
-                                <rect key="frame" x="0.0" y="44" width="414" height="300"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="240"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="300" id="29C-px-zqs"/>
-                                    <constraint firstAttribute="height" constant="300" id="2KP-dD-giu"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="thI-gO-5YS"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="240" id="29C-px-zqs"/>
+                                    <constraint firstAttribute="height" constant="240" id="2KP-dD-giu"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="240" id="thI-gO-5YS"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ziW-QV-bB1">
+                                <rect key="frame" x="20" y="322" width="374" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ziW-QV-bB1" secondAttribute="height" multiplier="187:25" id="US0-gI-cZv"/>
+                                    <constraint firstAttribute="height" constant="50" id="zBd-y7-jrh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfO-oL-B80">
+                                <rect key="frame" x="20" y="380" width="374" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XfO-oL-B80" secondAttribute="height" multiplier="187:16" id="3pE-xx-mBV"/>
+                                    <constraint firstAttribute="height" constant="32" id="f9d-ZA-ZMC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.47801493119999999" green="0.4793670377" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="r6x-zg-1np" firstAttribute="trailing" secondItem="ziW-QV-bB1" secondAttribute="trailing" constant="20" id="BUS-MA-Cbo"/>
+                            <constraint firstItem="XfO-oL-B80" firstAttribute="top" secondItem="ziW-QV-bB1" secondAttribute="bottom" constant="8" id="TrP-Vt-r97"/>
+                            <constraint firstItem="ziW-QV-bB1" firstAttribute="leading" secondItem="r6x-zg-1np" secondAttribute="leading" constant="20" id="XrT-ob-Jt5"/>
+                            <constraint firstItem="XfO-oL-B80" firstAttribute="leading" secondItem="r6x-zg-1np" secondAttribute="leading" constant="20" id="ZVF-Oe-WJN"/>
+                            <constraint firstItem="ziW-QV-bB1" firstAttribute="top" secondItem="wsD-us-vVe" secondAttribute="bottom" constant="38" id="cP0-4c-Ign"/>
+                            <constraint firstItem="r6x-zg-1np" firstAttribute="trailing" secondItem="XfO-oL-B80" secondAttribute="trailing" constant="20" id="emc-ek-uy1"/>
                             <constraint firstItem="wsD-us-vVe" firstAttribute="leading" secondItem="r6x-zg-1np" secondAttribute="leading" id="kBH-Oc-NQZ"/>
                             <constraint firstItem="wsD-us-vVe" firstAttribute="trailing" secondItem="r6x-zg-1np" secondAttribute="trailing" id="roB-sf-lc5"/>
                             <constraint firstItem="wsD-us-vVe" firstAttribute="top" secondItem="r6x-zg-1np" secondAttribute="top" id="sjF-gf-cxX"/>
@@ -142,6 +168,8 @@
                         <viewLayoutGuide key="safeArea" id="r6x-zg-1np"/>
                     </view>
                     <connections>
+                        <outlet property="VideoTitle" destination="ziW-QV-bB1" id="KVQ-Ei-a6o"/>
+                        <outlet property="ViewCount" destination="XfO-oL-B80" id="0Pt-fw-zNW"/>
                         <outlet property="playerview" destination="wsD-us-vVe" id="aKj-Om-fMc"/>
                     </connections>
                 </viewController>
