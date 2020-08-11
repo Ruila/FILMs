@@ -26,9 +26,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let video: VideosInfo
         video = videos[indexPath.row]
-        print("i am choosed", video.title!)
+//        print("i am choosed", video.title!)
         if let controller = storyboard?.instantiateViewController(withIdentifier:"showVideoPage") as? VideoViewCellViewController{
             controller.videoId = video.videoId!
+            controller.channel_ImageURL = video.profileThumbnails!
+            controller.channel_Subscriber_Count = video.channelSubscriberCount!
+            controller.channel_Title = video.channelName!
             present(controller, animated: true, completion: nil)
         }
     }
@@ -62,8 +65,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         {
             result in
             switch result {
-            case .success(let value):
-                print("111111111:", value.image)
+            case .success( _): break
+//                print("111111111:", value.image)
                 
             case .failure(let error):
                 print("Job failed==========: \(error.localizedDescription)")
@@ -75,8 +78,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         {
             result in
             switch result {
-            case .success(let value):
-                print("Task done for2222222:", value.image)
+            case .success( _): break
+//                print("Task done for2222222:", value.image)
                 
             case .failure(let error):
                 print("Job failed============: \(error.localizedDescription)")
@@ -124,7 +127,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             title: json2["items"][i]["snippet"]["title"].stringValue,
                             profileThumbnails: json1["items"][0]["snippet"]["thumbnails"]["medium"]["url"].stringValue,
                             videoId: json2["items"][i]["contentDetails"]["videoId"].stringValue,
-                            videoViewCount: videoJson["items"][0]["statistics"]["viewCount"].stringValue
+                            videoViewCount: videoJson["items"][0]["statistics"]["viewCount"].stringValue,
+                            channelSubscriberCount: json1["items"][0]["statistics"]["subscriberCount"].stringValue
                         ))
                         
                         self.tableViewVideos.reloadData()
@@ -142,7 +146,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func getChennelProfile()-> Promise<JSON>{
         
         return Promise { Resolver in
-            guard let cpurl = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
+            guard let cpurl = URL(string:"https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet,statistics&id=UC6VSFaHYbR-bhNer7DXxGNQ&key=\(apiKey)") else{return}
             
             AF.request(cpurl).validate().responseJSON { (response) in
                 switch response.result {
