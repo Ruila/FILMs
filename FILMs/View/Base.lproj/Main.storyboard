@@ -160,7 +160,7 @@
                                     </button>
                                 </subviews>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hzh-69-gIl">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hzh-69-gIl" customClass="kiwiView" customModule="FILMs" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="410" width="414" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -184,20 +184,26 @@
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <connections>
+                                    <action selector="TryAction:" destination="z9G-qS-0SG" eventType="touchUpInside" id="Gzw-eq-q8y"/>
+                                </connections>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lJ2-eq-N5Z">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lJ2-eq-N5Z" customClass="kiwiView" customModule="FILMs" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="469" width="414" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="comment num" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2UD-GW-h27">
                                         <rect key="frame" x="21" y="8" width="135" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="ShowMessageBoard:" destination="z9G-qS-0SG" eventType="touchUpInside" id="P6h-We-Tti"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -211,6 +217,7 @@
                         <outlet property="Like" destination="65T-UV-RZY" id="HiC-be-P3m"/>
                         <outlet property="SecondSection" destination="hzh-69-gIl" id="3sP-Al-YE5"/>
                         <outlet property="SubscriberCount" destination="tV6-ra-69V" id="eXq-nc-ztj"/>
+                        <outlet property="ThirdSection" destination="lJ2-eq-N5Z" id="cu3-Um-rUO"/>
                         <outlet property="VideoTitle" destination="ziW-QV-bB1" id="KVQ-Ei-a6o"/>
                         <outlet property="ViewCount" destination="XfO-oL-B80" id="0Pt-fw-zNW"/>
                         <outlet property="playerview" destination="wsD-us-vVe" id="aKj-Om-fMc"/>

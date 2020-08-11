@@ -28,6 +28,11 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
     @IBOutlet weak var SubscriberCount: UILabel!
     @IBOutlet weak var ChannelImage: UIImageView!
     
+    /*----third section---*/
+    
+    @IBOutlet weak var ThirdSection: UIView!
+    
+    
     var apiKey = apiKK
     var videoId: String?
     var channel_ImageURL: String?
@@ -44,6 +49,11 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
         LayerControl()
         getChannelInformation()
         // Do any additional setup after loading the view.
+    }
+    
+    
+    @IBAction func ShowMessageBoard(_ sender: Any) {
+        
     }
     
     func LayerControl() {
