@@ -51,9 +51,20 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
         // Do any additional setup after loading the view.
     }
     
+    let messageBoard = MessageBoardViewController()
     
     @IBAction func ShowMessageBoard(_ sender: Any) {
-        
+        print("click////")
+        messageBoard.showMessageBoard()
+    }
+    
+    func touchesBegan(_ touches: Set<AnyHashable>, withEvent event: UIEvent) {
+        let touch: UITouch? = touches.first as? UITouch
+        //location is relative to the current view
+        // do something with the touched point
+        if touch?.view != messageBoard.collectionView {
+            messageBoard.closeMessageBoard()
+        }
     }
     
     func LayerControl() {
