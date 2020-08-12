@@ -16,8 +16,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iNo-NR-ahP">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" red="0.97212671770333003" green="0.23300526853909467" blue="0.16037461857922819" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <items>
+                                    <navigationItem title="Home" id="a4e-ef-Ugx"/>
+                                </items>
+                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="340" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j2j-U4-JmP">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="122" width="414" height="740"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="340" id="37r-i1-6NL" customClass="ViewControllerTableViewCell" customModule="FILMs" customModuleProvider="target">
@@ -100,7 +108,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="j2j-U4-JmP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8qC-J3-9w3"/>
+                            <constraint firstItem="j2j-U4-JmP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="78" id="8qC-J3-9w3"/>
                             <constraint firstItem="j2j-U4-JmP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="W01-9Z-GjA"/>
                             <constraint firstItem="j2j-U4-JmP" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="e21-Qa-m4m"/>
                             <constraint firstItem="j2j-U4-JmP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wJT-zN-5u2"/>
@@ -108,6 +116,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="NavigationTitle" destination="a4e-ef-Ugx" id="vwD-YQ-S1l"/>
                         <outlet property="tableViewVideos" destination="j2j-U4-JmP" id="MeZ-zF-2bd"/>
                     </connections>
                 </viewController>

@@ -16,7 +16,9 @@ import PromiseKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
+   
     @IBOutlet weak var tableViewVideos: UITableView!
+    @IBOutlet weak var NavigationTitle: UINavigationItem!
     
     var videos = [VideosInfo]()
     var apiKey = apiKK
@@ -41,6 +43,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return videos.count
         
     }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
@@ -96,6 +99,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Do any additional setup after loading the view, typically from a nib.
         //        print("apiKK",apiKK)
         getData()
+        navigationModify()
+        
         
         
     }
@@ -105,6 +110,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    func navigationModify(){
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
+        titleLabel.text = "Home"
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .left
+        self.NavigationTitle.titleView = titleLabel
+
+        
+    }
     
     func getData(){
         firstly{
