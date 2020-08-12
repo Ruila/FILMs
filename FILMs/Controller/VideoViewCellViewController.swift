@@ -12,7 +12,7 @@ import SwiftyJSON
 import Alamofire
 import Kingfisher
 
-class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
+class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate,  UITableViewDataSource, UITableViewDelegate {
     
     /*----first section---*/
     @IBOutlet weak var FirstSection: UIView!
@@ -32,6 +32,10 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
     
     @IBOutlet weak var ThirdSection: UIView!
     
+    /*---four section---*/
+    
+    
+    
     
     var apiKey = apiKK
     var videoId: String?
@@ -48,6 +52,7 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
         showVideoDetail()
         LayerControl()
         getChannelInformation()
+      
         // Do any additional setup after loading the view.
     }
     
@@ -73,12 +78,16 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
         let thickness: CGFloat = 1.0
         let bottomBorder = CALayer()
         let bottomBorder_two = CALayer()
+        let bottomBorder_three = CALayer()
         bottomBorder.frame = CGRect(x:0, y: self.FirstSection.frame.size.height - thickness, width: self.FirstSection.frame.size.width, height:thickness)
         bottomBorder.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
         bottomBorder_two.frame = CGRect(x:0, y: self.SecondSection.frame.size.height - thickness, width: self.SecondSection.frame.size.width, height:thickness)
         bottomBorder_two.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
+        bottomBorder_three.frame = CGRect(x:0, y: self.ThirdSection.frame.size.height - thickness, width: self.ThirdSection.frame.size.width, height:thickness)
+        bottomBorder_three.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
         FirstSection.layer.addSublayer(bottomBorder)
         SecondSection.layer.addSublayer(bottomBorder_two)
+        ThirdSection.layer.addSublayer(bottomBorder_three)
         
         /*--corner rounds---*/
         self.ChannelImage.layer.cornerRadius = 20.0
@@ -146,6 +155,23 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
             }
             
         }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("table count")
+        return 15
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "trycell", for: indexPath) as! TryTableViewCell
+        
+        
+        cell.tryTableCell.text = "HHHHHH"
+        print("table cell")
+        return cell
+        
+        
     }
     
 }

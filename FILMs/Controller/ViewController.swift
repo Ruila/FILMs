@@ -8,7 +8,7 @@
 
 import UIKit
 import Alamofire
-import AlamofireImage
+
 import SwiftyJSON
 import Kingfisher
 import PromiseKit
@@ -20,8 +20,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var videos = [VideosInfo]()
     var apiKey = apiKK
-    var profileThumbnailsURL: String = ""
-    var videoInfoDic = [String:String]()
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let video: VideosInfo

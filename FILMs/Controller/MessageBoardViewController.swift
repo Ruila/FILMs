@@ -15,7 +15,7 @@ class MessageBoardViewController: UIViewController {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = UIColor.black
+        cv.backgroundColor = UIColor.white
         return cv
     }()
     
@@ -28,17 +28,18 @@ class MessageBoardViewController: UIViewController {
             
             window.addSubview(emptyView)
             window.addSubview(collectionView)
-           
+            
             
             emptyView.frame = window.frame
             emptyView.alpha = 0
             
-            let height: CGFloat = 200
+            let height: CGFloat = 450
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0,
                                           y: window.frame.height,
                                           width: window.frame.width,
                                           height: height)
+            
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1,options: .curveEaseOut, animations: {
                 self.emptyView.alpha = 1
@@ -54,11 +55,15 @@ class MessageBoardViewController: UIViewController {
     @objc func closeMessageBoard() {
         if let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first{
             print("close")
-            emptyView.alpha = 0
-            collectionView.frame = CGRect(x: 0,
-                                          y: window.frame.height,
-                                          width: window.frame.width,
-                                          height: 200)
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1,options: .curveEaseOut, animations: {
+                self.emptyView.alpha = 0
+                self.collectionView.frame = CGRect(x: 0,
+                                              y: window.frame.height,
+                                              width: window.frame.width,
+                                              height: window.frame.height)
+            }, completion: nil)
+            
         }
     }
     
