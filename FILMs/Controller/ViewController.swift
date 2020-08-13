@@ -13,21 +13,61 @@ import SwiftyJSON
 import Kingfisher
 import PromiseKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
-   
+    @IBOutlet weak var CollectionIconBox: UICollectionView!
     @IBOutlet weak var tableViewVideos: UITableView!
-    @IBOutlet weak var NavigationTitle: UINavigationItem!
+    //    @IBOutlet weak var NavigationTitle: UINavigationItem!
     
     var videos = [VideosInfo]()
     var apiKey = apiKK
-
+   
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        //        print("apiKK",apiKK)
+        getData()
+        setIconBox()
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+          print("check22222")
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collecCell", for: indexPath)
+          print("check3333")
+        cell.backgroundColor = UIColor.black
+        return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("444")
+        return CGSize(width: self.CollectionIconBox.frame.width / 4, height: CollectionIconBox.frame.height)
+    }
+    
+    func setIconBox(){
+       print("check1111")
+     
+        CollectionIconBox.delegate = self
+        CollectionIconBox.dataSource = self
+//         self.CollectionIconBox.reloadData()
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let video: VideosInfo
         video = videos[indexPath.row]
-//        print("i am choosed", video.title!)
+        //        print("i am choosed", video.title!)
         if let controller = storyboard?.instantiateViewController(withIdentifier:"showVideoPage") as? VideoViewCellViewController{
             controller.videoId = video.videoId!
             controller.channel_ImageURL = video.profileThumbnails!
@@ -43,7 +83,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return videos.count
         
     }
-
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
@@ -68,7 +108,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             result in
             switch result {
             case .success( _): break
-//                print("111111111:", value.image)
+                //                print("111111111:", value.image)
                 
             case .failure(let error):
                 print("Job failed==========: \(error.localizedDescription)")
@@ -81,7 +121,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             result in
             switch result {
             case .success( _): break
-//                print("Task done for2222222:", value.image)
+                //                print("Task done for2222222:", value.image)
                 
             case .failure(let error):
                 print("Job failed============: \(error.localizedDescription)")
@@ -94,31 +134,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //        print("apiKK",apiKK)
-        getData()
-        navigationModify()
-        
-        
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func navigationModify(){
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
-        titleLabel.text = "Home"
-        titleLabel.textColor = .white
-        titleLabel.textAlignment = .left
-        self.NavigationTitle.titleView = titleLabel
 
-        
-    }
     
     func getData(){
         firstly{

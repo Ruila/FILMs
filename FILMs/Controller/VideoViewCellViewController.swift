@@ -12,7 +12,7 @@ import SwiftyJSON
 import Alamofire
 import Kingfisher
 
-class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate,  UITableViewDataSource, UITableViewDelegate {
+class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate {
     
     /*----first section---*/
     @IBOutlet weak var FirstSection: UIView!
@@ -156,22 +156,6 @@ class VideoViewCellViewController: UIViewController, YTPlayerViewDelegate,  UITa
             
         }
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("table count")
-        return 15
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "trycell", for: indexPath) as! TryTableViewCell
-        
-        
-        cell.tryTableCell.text = "HHHHHH"
-        print("table cell")
-        return cell
-        
-        
-    }
+  
     
 }
