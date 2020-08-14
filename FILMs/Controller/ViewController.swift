@@ -22,7 +22,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var videos = [VideosInfo]()
     var apiKey = apiKK
-   
+    let MenuBarImageNames = ["home", "fire", "feed", "user"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,29 +40,46 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-          print("check22222")
+        
         return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collecCell", for: indexPath)
-          print("check3333")
-        cell.backgroundColor = UIColor.black
+        let imageView: UIImageView = {
+            let iv = UIImageView()
+            iv.image = UIImage(named: MenuBarImageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
+            iv.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
+            return iv
+        }()
+        
+        cell.addSubview(imageView)
+        cell.addConstraintsWithFormat("H:[v0(25)]", views: imageView)
+        cell.addConstraintsWithFormat("V:[v0(25)]", views: imageView)
+        cell.addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: cell, attribute: .centerX, multiplier: 1, constant: 0))
+        cell.addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: cell, attribute: .centerY, multiplier: 1, constant: 0))
+        
+        cell.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
+        
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("444")
+        
         return CGSize(width: self.CollectionIconBox.frame.width / 4, height: CollectionIconBox.frame.height)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
     func setIconBox(){
-       print("check1111")
-     
+        
+        
         CollectionIconBox.delegate = self
         CollectionIconBox.dataSource = self
-//         self.CollectionIconBox.reloadData()
+        //         self.CollectionIconBox.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -134,7 +152,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-
+    
     
     func getData(){
         firstly{
