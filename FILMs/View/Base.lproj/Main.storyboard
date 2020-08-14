@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="100"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5Eh-e2-MyK">
-                                        <rect key="frame" x="0.0" y="54" width="414" height="45"/>
+                                        <rect key="frame" x="0.0" y="55" width="414" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.97212671770000003" green="0.2330052685" blue="0.16037461859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jNj-T1-omp">
