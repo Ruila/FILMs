@@ -39,27 +39,37 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let cell = collectionView.cellForItem(at: indexPath)
+//        print("selected cell", indexPath)
+//        cell?.contentView
+//    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collecCell", for: indexPath)
-        let imageView: UIImageView = {
-            let iv = UIImageView()
-            iv.image = UIImage(named: MenuBarImageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
-            iv.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
-            return iv
-        }()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collecCell", for: indexPath)as! MenuCell
         
-        cell.addSubview(imageView)
-        cell.addConstraintsWithFormat("H:[v0(25)]", views: imageView)
-        cell.addConstraintsWithFormat("V:[v0(25)]", views: imageView)
-        cell.addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: cell, attribute: .centerX, multiplier: 1, constant: 0))
-        cell.addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: cell, attribute: .centerY, multiplier: 1, constant: 0))
-        
-        cell.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
+   
+//        let imageView: UIImageView = {
+//            let iv = UIImageView()
+//            iv.image = UIImage(named: MenuBarImageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
+//            iv.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
+//            return iv
+//        }()
+//
+//
+//
+//        cell.addSubview(imageView)
+//        cell.addConstraintsWithFormat("H:[v0(25)]", views: imageView)
+//        cell.addConstraintsWithFormat("V:[v0(25)]", views: imageView)
+//        cell.addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: cell, attribute: .centerX, multiplier: 1, constant: 0))
+//        cell.addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: cell, attribute: .centerY, multiplier: 1, constant: 0))
+//
+//        cell.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
         
         return cell
         
@@ -75,8 +85,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func setIconBox(){
-        
-        
         CollectionIconBox.delegate = self
         CollectionIconBox.dataSource = self
         //         self.CollectionIconBox.reloadData()
