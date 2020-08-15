@@ -43,7 +43,7 @@
                                         </cells>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAA-uv-jpJ">
-                                        <rect key="frame" x="17" y="0.0" width="380" height="55"/>
+                                        <rect key="frame" x="17" y="0.0" width="173" height="55"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="55" id="X9F-7l-YNZ"/>
                                         </constraints>
@@ -51,12 +51,20 @@
                                         <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <color key="highlightedColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A7F-e8-d5k">
+                                        <rect key="frame" x="384" y="16" width="22" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HvR-AR-iPx">
+                                        <rect key="frame" x="348" y="16" width="22" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.97212671770000003" green="0.2330052685" blue="0.16037461859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qAA-uv-jpJ" secondAttribute="trailing" id="4OC-kK-oIE"/>
                                     <constraint firstItem="qAA-uv-jpJ" firstAttribute="leading" secondItem="SJs-g8-owa" secondAttribute="leading" constant="17" id="9Bm-48-xgq"/>
-                                    <constraint firstItem="qAA-uv-jpJ" firstAttribute="centerX" secondItem="SJs-g8-owa" secondAttribute="centerX" id="GA9-ZK-1Jh"/>
+                                    <constraint firstItem="qAA-uv-jpJ" firstAttribute="centerX" secondItem="SJs-g8-owa" secondAttribute="centerX" constant="-103.5" id="GA9-ZK-1Jh"/>
                                     <constraint firstItem="qAA-uv-jpJ" firstAttribute="top" secondItem="SJs-g8-owa" secondAttribute="top" id="Qvi-cw-CRg"/>
                                     <constraint firstAttribute="height" constant="100" id="rF2-XI-JrY"/>
                                 </constraints>
@@ -157,6 +165,8 @@
                     </view>
                     <connections>
                         <outlet property="CollectionIconBox" destination="5Eh-e2-MyK" id="RgM-xG-g1G"/>
+                        <outlet property="MoreButton" destination="A7F-e8-d5k" id="Y9z-Ac-Fsb"/>
+                        <outlet property="SearchButton" destination="HvR-AR-iPx" id="PKD-sn-yG1"/>
                         <outlet property="tableViewVideos" destination="j2j-U4-JmP" id="MeZ-zF-2bd"/>
                     </connections>
                 </viewController>

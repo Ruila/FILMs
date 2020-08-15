@@ -16,6 +16,8 @@ import PromiseKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
+    @IBOutlet weak var MoreButton: UIImageView!
+    @IBOutlet weak var SearchButton: UIImageView!
     @IBOutlet weak var CollectionIconBox: UICollectionView!
     @IBOutlet weak var tableViewVideos: UITableView!
     //    @IBOutlet weak var NavigationTitle: UINavigationItem!
@@ -24,6 +26,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var apiKey = apiKK
     let MenuBarImageNames = ["home", "fire", "feed", "user"]
     
+    let moreOption = MoreOptionViewController()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,14 +35,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         //        print("apiKK",apiKK)
         getData()
         setIconBox()
-        
+        setOption()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
- 
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return 4
@@ -49,7 +54,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         cell.imageView.image = UIImage(named: MenuBarImageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
         cell.tintColor = UIColor(red: 91/255, green: 14/255, blue: 13/255, alpha: 1)
-
+        
         return cell
         
     }
@@ -63,10 +68,38 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 0
     }
     
+    func setOption(){
+        
+        //        let smallImage_more = resizeImage(image: UIImage(named: "more")!, width: 28)
+        //        let smallImage_search = resizeImage(image: UIImage(named: "search")!, width: 28)
+        MoreButton.image = UIImage(named: "more")
+        SearchButton.image = UIImage(named: "search")
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(moreTap))
+        MoreButton.addGestureRecognizer(gesture)
+        MoreButton.isUserInteractionEnabled = true
+    }
+    @objc func moreTap(sender : UITapGestureRecognizer) {
+        print("trytap")
+        moreOption.show()
+    }
+    
+    //    func resizeImage(image: UIImage, width: CGFloat) -> UIImage {
+    //        let size = CGSize(width: width, height:
+    //            image.size.height * width / image.size.width)
+    //        let renderer = UIGraphicsImageRenderer(size: size)
+    //        let newImage = renderer.image { (context) in
+    //            image.draw(in: renderer.format.bounds)
+    //        }
+    //        return newImage
+    //    }
+    
+    
     func setIconBox(){
         CollectionIconBox.delegate = self
         CollectionIconBox.dataSource = self
         //         self.CollectionIconBox.reloadData()
+        let selectedIndexPath = NSIndexPath(item:0, section: 0)
+        CollectionIconBox.selectItem(at: selectedIndexPath as IndexPath, animated: false, scrollPosition: .init())
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
