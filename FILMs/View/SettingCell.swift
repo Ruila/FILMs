@@ -9,14 +9,24 @@
 import UIKit
 
 class SettingCell: UICollectionViewCell {
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Setting"
+        return label
+    }()
+    
     override init(frame: CGRect) {
-           super.init(frame: frame)
-           print("bleeeee")
-        backgroundColor = UIColor.blue
-       }
+        super.init(frame: frame)
+        
+        addSubview(nameLabel)
+        
+        self.addConstraintsWithFormat("H:|[v0]|", views: nameLabel)
+        self.addConstraintsWithFormat("V:|[v0]|", views: nameLabel)
+    }
     
     required init?(coder: NSCoder) {
-         print("gsdgsgsdg")
+        
         fatalError("init(coder:) has not been implemented")
     }
 }

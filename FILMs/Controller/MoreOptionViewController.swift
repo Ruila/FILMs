@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoreOptionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MoreOptionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
     let emptyView = UIView()
@@ -19,38 +19,35 @@ class MoreOptionViewController: UIViewController, UICollectionViewDelegate, UICo
         cv.backgroundColor = UIColor.white
         return cv
     }()
-    init() {
-        super.init()
-      print("fsdfsf///")
+    
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
+        super.init(nibName: nil, bundle: nil)
+        print("override init")
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SettingCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     required init?(coder: NSCoder) {
-       print("=======")
+        fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("didload")
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(SettingCell.self, forCellWithReuseIdentifier: cellId)
-        // Do any additional setup after loading the view.
-    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("ffffff")
+    
         return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)as! SettingCell
-          print("gggggg")
+      
         return cell
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
+    
     
     func show(){
         if let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first{
