@@ -6,7 +6,9 @@
 //  Copyright © 2020 Meng-Ru Lin. All rights reserved.
 //
 
-class VideosInfo {
+import UIKit
+
+class VideosInfo: NSObject {
     var imageurl: String?
     var title: String?
     var profileThumbnails: String?

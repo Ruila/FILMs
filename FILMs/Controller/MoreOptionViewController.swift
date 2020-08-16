@@ -8,10 +8,26 @@
 
 import UIKit
 
+class Setting: NSObject{
+    let name: String
+    let imageName: String
+    
+    init(name: String, imageName: String) {
+        self.name = name
+        self.imageName = imageName
+    }
+    
+}
+
 class MoreOptionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
+    let cellHeight = 50
     let emptyView = UIView()
+    
+    let settings: [Setting] = {
+        return [Setting(name: "Settings", imageName: "setting"),Setting(name: "Terms & privacy policy", imageName: "password"),Setting(name: "Send feedback", imageName: "feedback"),Setting(name: "Help", imageName: "help"),Setting(name: "Switch Account", imageName: "user-1"),Setting(name: "Cancel", imageName: "close")]
+    }()
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -34,18 +50,25 @@ class MoreOptionViewController: UIViewController, UICollectionViewDelegate, UICo
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    
-        return 3
+        
+        return settings.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)as! SettingCell
-      
+        
+        let setting = settings[indexPath.item]
+        cell.setting = setting
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 50)
+        return CGSize(width: collectionView.frame.width, height: CGFloat(self.cellHeight))
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
     
@@ -63,7 +86,7 @@ class MoreOptionViewController: UIViewController, UICollectionViewDelegate, UICo
             emptyView.frame = window.frame
             emptyView.alpha = 0
             
-            let height: CGFloat = 450
+            let height: CGFloat = CGFloat(settings.count * cellHeight + 50)
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0,
                                           y: window.frame.height,
