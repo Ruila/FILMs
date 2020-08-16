@@ -10,12 +10,21 @@ import UIKit
 
 class SettingCell: UICollectionViewCell {
     
+    override var isHighlighted: Bool{
+        didSet {
+            backgroundColor = self.isHighlighted ? UIColor.darkGray : UIColor.white
+            nameLabel.textColor = self.isHighlighted ? UIColor.white : UIColor.black
+            iconImageView.tintColor = self.isHighlighted ? UIColor.white : UIColor.darkGray
+        }
+    }
+    
     var setting: Setting? {
         didSet {
             nameLabel.text = setting?.name
             
             if let imageName = setting?.imageName {
-                iconImageView.image = UIImage(named: imageName)
+                iconImageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+                iconImageView.tintColor = UIColor.darkGray
             }
         }
     }
